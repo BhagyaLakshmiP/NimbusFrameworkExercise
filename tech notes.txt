@@ -1,0 +1,9 @@
+Technologies used in Nimbus framework:
+
+
+Core Java : Used for building entire application
+Spring Framework : Used as part of developing web related coding in nimbus framework.
+Spring is used to handle all requests coming from the web browser.
+MongoDB : Mongodb is used for maintaining non relational data in  nimbus framework.
+Data will be stored in json type documents.
+

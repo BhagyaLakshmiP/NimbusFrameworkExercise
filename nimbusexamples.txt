@@ -1,0 +1,98 @@
+>>Architecture of the Nimbus framework, with a specific focus on any two of the technologies used.
+
+Nimbus is an open source project focused on cloud computing, it is built around three goals targeting three different communities:
+Enable resource owners to provide their resources as an infrastructure cloud
+Enable cloud users to access infrastructure cloud resources more easily
+The first goal is realized by the Nimbus Infrastructure (the Workspace Service and Cumulus components providing a compute and storage cloud, respectively), the second by the Nimbus Platform (e.g., the Context Broker and cloudinit.d tools), and the third by strongly supporting open source development practices via modular, extensible code and engagement with open source developers.
+
+>>How @Config annotations are used in the framework with examples.
+@Configuration
+	@ConfigurationProperties(prefix="process")
+	public class BPMEngineConfig extends AbstractProcessEngineAutoConfiguration {
+		
+		@Value("${process.database.driver}") 
+		private String dbDriver;
+		
+		@Value("${process.database.url}") 
+		private String dbUrl;
+		
+		@Value("${process.database.username}") 
+		private String dbUserName;
+		
+		@Value("${process.database.password}") 
+		private String dbPassword;
+		
+		@Value("${process.history.level}") 
+		private String processHistoryLevel;
+
+
+
+>>How Activities are used:
+
+
+protected void addCustomDeployers(SpringProcessEngineConfiguration engineConfiguration) throws Exception{
+	    	List<Deployer> deployers = new ArrayList<>();
+	        //deployers.add(new RulesDeployer());
+	        if(customDeployers != null){
+	        	for(String customDeployerClass: customDeployers){
+	        		Class<?> clazz = Class.forName(customDeployerClass);
+	        		deployers.add((Deployer)clazz.newInstance());        		
+	        	}
+	        }
+	        engineConfiguration.setCustomPostDeployers(deployers);    	
+	    }
+	
+
+
+>>Interface with MongoDB within the framework. Provide examples to show mapping of mongodb with Nimbus.
+
+public MongoDBSearch(BeanResolverStrategy beanResolver) {
+	this.beanResolver = beanResolver;
+	this.mongoOps=beanResolver.get(MongoOperations.class);
+	this.domainConfigBuilder=beanResolver.get(DomainConfigBuilder.class);
+
+
+
+
+>>Query DSL used in nimbus framework:
+
+private PageRequestAndRespone<Object> findAllPageable(Class<?> referredClass, String alias, Pageable pageRequest, AbstractMongodbQuery query, PathBuilder[] projectionPaths) {
+			AbstractMongodbQuery qPage = query.offset(pageRequest.getOffset()).limit(pageRequest.getPageSize());
+			
+			if(pageRequest.getSort() != null){
+				PathBuilder<?> entityPath = new PathBuilder(referredClass, alias);
+				for (Order order : pageRequest.getSort()) {
+				    PathBuilder<Object> path = entityPath.get(order.getProperty());
+				    qPage.orderBy(new OrderSpecifier(com.querydsl.core.types.Order.valueOf(order.getDirection().name().toUpperCase()), path));
+				}
+			}
+			return new PageRequestAndRespone<Object>(qPage.fetchResults(projectionPaths).getResults(), pageRequest, () -> query.fetchCount());
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
