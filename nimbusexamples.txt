@@ -1,9 +1,11 @@
 >>Architecture of the Nimbus framework, with a specific focus on any two of the technologies used.
+Nimbus is open source software and Users would be able to draw parallel between how a traditional application is developed and how an application can be developed using Nimbus Platform.
 
-Nimbus is an open source project focused on cloud computing, it is built around three goals targeting three different communities:
-Enable resource owners to provide their resources as an infrastructure cloud
-Enable cloud users to access infrastructure cloud resources more easily
-The first goal is realized by the Nimbus Infrastructure (the Workspace Service and Cumulus components providing a compute and storage cloud, respectively), the second by the Nimbus Platform (e.g., the Context Broker and cloudinit.d tools), and the third by strongly supporting open source development practices via modular, extensible code and engagement with open source developers.
+Nimbus Platform reduces application development time by
+Providing the ability to build application through configuration.
+
+Providing boilerplate code for cross cutting concerns.
+
 
 >>How @Config annotations are used in the framework with examples.
 @Configuration
